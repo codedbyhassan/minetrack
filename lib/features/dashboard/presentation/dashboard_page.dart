@@ -25,7 +25,8 @@ class DashboardPage extends ConsumerWidget {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          await ref.refresh(permitsProvider.future);
+          ref.invalidate(permitsProvider);
+          await ref.read(permitsProvider.future);
         },
         child: permitsAsync.when(
           loading: () => const Center(child: CircularProgressIndicator()),
@@ -42,10 +43,7 @@ class DashboardPage extends ConsumerWidget {
                 style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 8),
-              Text(
-                error.toString(),
-                textAlign: TextAlign.center,
-              ),
+              Text(error.toString(), textAlign: TextAlign.center),
               const SizedBox(height: 20),
               FilledButton(
                 onPressed: () => ref.invalidate(permitsProvider),

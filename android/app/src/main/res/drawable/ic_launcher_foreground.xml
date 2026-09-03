@@ -1,0 +1,12 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="@color/mine_track_foreground"
+        android:pathData="M54,18 L86,36 L86,72 L54,90 L22,72 L22,36 Z" />
+    <path
+        android:fillColor="@color/mine_track_background"
+        android:pathData="M54,31 L73,42 L73,66 L54,77 L35,66 L35,42 Z" />
+</vector>

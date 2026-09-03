@@ -1,0 +1,32 @@
+name: minetrack
+description: Native Android client for MineTrack permit management.
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: '>=3.9.0 <4.0.0'
+  flutter: '>=3.35.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  flutter_dotenv: ^5.2.1
+  go_router: ^16.2.0
+  intl: ^0.20.2
+  supabase_flutter: ^2.10.0
+
+  flutter_riverpod: ^2.6.1
+
+  # Maps/geospatial support will be added when the existing MineTrack
+  # geospatial contract is mapped into the native feature.
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - .env

@@ -1,0 +1,7 @@
+# Copy this file to android/key.properties for local release signing.
+# Never commit android/key.properties or your keystore.
+
+storePassword=YOUR_KEYSTORE_PASSWORD
+keyPassword=YOUR_KEY_PASSWORD
+keyAlias=minetrack
+storeFile=../keys/minetrack-upload.jks

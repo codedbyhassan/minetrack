@@ -20,7 +20,9 @@ class AppRouter {
   static GoRouter create() {
     return GoRouter(
       initialLocation: '/dashboard',
-      refreshListenable: GoRouterRefreshStream(SupabaseService.client.auth.onAuthStateChange),
+      refreshListenable: GoRouterRefreshStream(
+        SupabaseService.client.auth.onAuthStateChange,
+      ),
       redirect: (context, state) {
         final signedIn = SupabaseService.client.auth.currentSession != null;
         final isLogin = state.matchedLocation == '/login';
@@ -29,19 +31,53 @@ class AppRouter {
         return null;
       },
       routes: [
-        GoRoute(path: '/login', builder: (_, __) => const LoginPage()),
+        GoRoute(
+          path: '/login',
+          builder: (_, _) => const LoginPage(),
+        ),
         ShellRoute(
           builder: (_, state, child) => AppShell(child: child),
           routes: [
-            GoRoute(path: '/dashboard', builder: (_, __) => const DashboardPage()),
-            GoRoute(path: '/permits', builder: (_, __) => const PermitRegistryPage()),
-            GoRoute(path: '/permits/new', builder: (_, __) => const NewPermitPage()),
-            GoRoute(path: '/permits/:id', builder: (_, state) => PermitDetailPage(permitId: state.pathParameters['id']!)),
-            GoRoute(path: '/permits/:id/renew', builder: (_, state) => RenewPermitPage(permitId: state.pathParameters['id']!)),
-            GoRoute(path: '/map', builder: (_, __) => const PermitMapPage()),
-            GoRoute(path: '/notifications', builder: (_, __) => const NotificationsPage()),
-            GoRoute(path: '/profile', builder: (_, __) => const ProfilePage()),
-            GoRoute(path: '/settings', builder: (_, __) => const SettingsPage()),
+            GoRoute(
+              path: '/dashboard',
+              builder: (_, _) => const DashboardPage(),
+            ),
+            GoRoute(
+              path: '/permits',
+              builder: (_, _) => const PermitRegistryPage(),
+            ),
+            GoRoute(
+              path: '/permits/new',
+              builder: (_, _) => const NewPermitPage(),
+            ),
+            GoRoute(
+              path: '/permits/:id',
+              builder: (_, state) => PermitDetailPage(
+                permitId: state.pathParameters['id']!,
+              ),
+            ),
+            GoRoute(
+              path: '/permits/:id/renew',
+              builder: (_, state) => RenewPermitPage(
+                permitId: state.pathParameters['id']!,
+              ),
+            ),
+            GoRoute(
+              path: '/map',
+              builder: (_, _) => const PermitMapPage(),
+            ),
+            GoRoute(
+              path: '/notifications',
+              builder: (_, _) => const NotificationsPage(),
+            ),
+            GoRoute(
+              path: '/profile',
+              builder: (_, _) => const ProfilePage(),
+            ),
+            GoRoute(
+              path: '/settings',
+              builder: (_, _) => const SettingsPage(),
+            ),
           ],
         ),
       ],

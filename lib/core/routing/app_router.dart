@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../features/auth/presentation/login_page.dart';
 import '../../features/dashboard/presentation/dashboard_page.dart';
+import '../../features/map/presentation/permit_map_page.dart';
 import '../../features/permits/presentation/new_permit_page.dart';
 import '../../features/permits/presentation/permit_detail_page.dart';
 import '../../features/permits/presentation/permit_registry_page.dart';
@@ -45,7 +46,7 @@ class AppRouter {
               path: '/permits/:id/renew',
               builder: (_, state) => RenewPermitPage(permitId: state.pathParameters['id']!),
             ),
-            GoRoute(path: '/map', builder: (_, __) => const _PlaceholderPage(title: 'Geospatial View')),
+            GoRoute(path: '/map', builder: (_, __) => const PermitMapPage()),
             GoRoute(path: '/notifications', builder: (_, __) => const _PlaceholderPage(title: 'Notifications')),
             GoRoute(path: '/profile', builder: (_, __) => const ProfilePage()),
             GoRoute(path: '/settings', builder: (_, __) => const SettingsPage()),

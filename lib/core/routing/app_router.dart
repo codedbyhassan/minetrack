@@ -7,6 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../features/auth/presentation/login_page.dart';
 import '../../features/dashboard/presentation/dashboard_page.dart';
 import '../../features/map/presentation/permit_map_page.dart';
+import '../../features/notifications/presentation/notifications_page.dart';
 import '../../features/permits/presentation/new_permit_page.dart';
 import '../../features/permits/presentation/permit_detail_page.dart';
 import '../../features/permits/presentation/permit_registry_page.dart';
@@ -20,9 +21,7 @@ class AppRouter {
   static GoRouter create() {
     return GoRouter(
       initialLocation: '/dashboard',
-      refreshListenable: GoRouterRefreshStream(
-        SupabaseService.client.auth.onAuthStateChange,
-      ),
+      refreshListenable: GoRouterRefreshStream(SupabaseService.client.auth.onAuthStateChange),
       redirect: (context, state) {
         final signedIn = SupabaseService.client.auth.currentSession != null;
         final isLogin = state.matchedLocation == '/login';
@@ -38,16 +37,10 @@ class AppRouter {
             GoRoute(path: '/dashboard', builder: (_, __) => const DashboardPage()),
             GoRoute(path: '/permits', builder: (_, __) => const PermitRegistryPage()),
             GoRoute(path: '/permits/new', builder: (_, __) => const NewPermitPage()),
-            GoRoute(
-              path: '/permits/:id',
-              builder: (_, state) => PermitDetailPage(permitId: state.pathParameters['id']!),
-            ),
-            GoRoute(
-              path: '/permits/:id/renew',
-              builder: (_, state) => RenewPermitPage(permitId: state.pathParameters['id']!),
-            ),
+            GoRoute(path: '/permits/:id', builder: (_, state) => PermitDetailPage(permitId: state.pathParameters['id']!)),
+            GoRoute(path: '/permits/:id/renew', builder: (_, state) => RenewPermitPage(permitId: state.pathParameters['id']!)),
             GoRoute(path: '/map', builder: (_, __) => const PermitMapPage()),
-            GoRoute(path: '/notifications', builder: (_, __) => const _PlaceholderPage(title: 'Notifications')),
+            GoRoute(path: '/notifications', builder: (_, __) => const NotificationsPage()),
             GoRoute(path: '/profile', builder: (_, __) => const ProfilePage()),
             GoRoute(path: '/settings', builder: (_, __) => const SettingsPage()),
           ],
@@ -70,15 +63,4 @@ class GoRouterRefreshStream extends ChangeNotifier {
     _subscription.cancel();
     super.dispose();
   }
-}
-
-class _PlaceholderPage extends StatelessWidget {
-  const _PlaceholderPage({required this.title});
-  final String title;
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: Text(title)),
-        body: Center(child: Text(title)),
-      );
 }

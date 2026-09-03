@@ -10,6 +10,8 @@ import '../../features/permits/presentation/new_permit_page.dart';
 import '../../features/permits/presentation/permit_detail_page.dart';
 import '../../features/permits/presentation/permit_registry_page.dart';
 import '../../features/permits/presentation/renew_permit_page.dart';
+import '../../features/profile/presentation/profile_page.dart';
+import '../../features/settings/presentation/settings_page.dart';
 import '../services/supabase_service.dart';
 import '../shell/app_shell.dart';
 
@@ -45,8 +47,8 @@ class AppRouter {
             ),
             GoRoute(path: '/map', builder: (_, __) => const _PlaceholderPage(title: 'Geospatial View')),
             GoRoute(path: '/notifications', builder: (_, __) => const _PlaceholderPage(title: 'Notifications')),
-            GoRoute(path: '/profile', builder: (_, __) => const _PlaceholderPage(title: 'Profile')),
-            GoRoute(path: '/settings', builder: (_, __) => const _PlaceholderPage(title: 'Settings')),
+            GoRoute(path: '/profile', builder: (_, __) => const ProfilePage()),
+            GoRoute(path: '/settings', builder: (_, __) => const SettingsPage()),
           ],
         ),
       ],

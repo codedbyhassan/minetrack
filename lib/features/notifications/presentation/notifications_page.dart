@@ -50,7 +50,7 @@ class NotificationsPage extends ConsumerWidget {
           return ListView.separated(
             padding: const EdgeInsets.all(16),
             itemCount: alerts.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 10),
+            separatorBuilder: (_, _) => const SizedBox(height: 10),
             itemBuilder: (context, index) {
               final permit = alerts[index];
               final expiry = permit.expiryDate!;

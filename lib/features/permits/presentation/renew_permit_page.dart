@@ -62,7 +62,7 @@ class _RenewPermitPageState extends ConsumerState<RenewPermitPage> {
       final repository = ref.read(permitRepositoryProvider);
       final permit = await repository.getPermit(widget.permitId);
       final expiry = _addMonths(_effectiveDate!, months);
-      final date = (DateTime value) => value.toIso8601String().split('T').first;
+      String date(DateTime value) => value.toIso8601String().split('T').first;
 
       await repository.createRenewal({
         'permit_id': widget.permitId,

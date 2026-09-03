@@ -13,6 +13,7 @@ class PermitDetailPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final permit = ref.watch(permitProvider(permitId));
+    final renewals = ref.watch(renewalsProvider(permitId));
 
     return Scaffold(
       appBar: AppBar(
@@ -20,7 +21,10 @@ class PermitDetailPage extends ConsumerWidget {
         actions: [
           IconButton(
             tooltip: 'Refresh',
-            onPressed: () => ref.invalidate(permitProvider(permitId)),
+            onPressed: () {
+              ref.invalidate(permitProvider(permitId));
+              ref.invalidate(renewalsProvider(permitId));
+            },
             icon: const Icon(Icons.refresh),
           ),
         ],
@@ -53,7 +57,13 @@ class PermitDetailPage extends ConsumerWidget {
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
             ),
             const SizedBox(height: 6),
-            Text(p.revoked ? 'REVOKED' : 'ACTIVE', style: TextStyle(fontWeight: FontWeight.w700, color: p.revoked ? Colors.red : Colors.green)),
+            Text(
+              p.revoked ? 'REVOKED' : 'ACTIVE',
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                color: p.revoked ? Colors.red : Colors.green,
+              ),
+            ),
             const SizedBox(height: 20),
             _group(context, 'Proponent', [
               _row('Proponent', p.proponentName),
@@ -70,7 +80,10 @@ class PermitDetailPage extends ConsumerWidget {
             _group(context, 'Classification', [
               _row('Sector', p.sector?.name),
               _row('Undertaking', p.undertakingType?.name),
-              _row('Capacity', p.capacity == null ? null : '${p.capacity} ${p.capacityUnit ?? ''}'.trim()),
+              _row(
+                'Capacity',
+                p.capacity == null ? null : '${p.capacity} ${p.capacityUnit ?? ''}'.trim(),
+              ),
             ]),
             _group(context, 'Validity', [
               _row('Effective date', _date(p.effectiveDate)),
@@ -90,19 +103,50 @@ class PermitDetailPage extends ConsumerWidget {
                   subtitle: Text('This permit is marked as revoked.'),
                 ),
               ),
-            if (p.renewals.isNotEmpty) ...[
-              const SizedBox(height: 8),
-              Text('Renewal history', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700)),
-              const SizedBox(height: 8),
-              ...p.renewals.map(
-                (r) => Card(
-                  child: ListTile(
-                    title: Text('${_date(r.newEffectiveDate)} → ${_date(r.newExpiryDate)}'),
-                    subtitle: Text('${r.newValidityMonths} months • Total ${r.totalCost.toStringAsFixed(2)}'),
+            const SizedBox(height: 8),
+            Text(
+              'Renewal history',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
+            ),
+            const SizedBox(height: 8),
+            renewals.when(
+              loading: () => const Center(child: Padding(
+                padding: EdgeInsets.all(16),
+                child: CircularProgressIndicator(),
+              )),
+              error: (error, _) => Card(
+                child: ListTile(
+                  leading: const Icon(Icons.error_outline),
+                  title: const Text('Unable to load renewal history'),
+                  subtitle: Text('$error'),
+                  trailing: IconButton(
+                    onPressed: () => ref.invalidate(renewalsProvider(permitId)),
+                    icon: const Icon(Icons.refresh),
                   ),
                 ),
               ),
-            ],
+              data: (items) => items.isEmpty
+                  ? const Card(
+                      child: ListTile(
+                        leading: Icon(Icons.history_outlined),
+                        title: Text('No renewals recorded'),
+                      ),
+                    )
+                  : Column(
+                      children: items
+                          .map(
+                            (r) => Card(
+                              child: ListTile(
+                                title: Text('${_date(r.newEffectiveDate)} → ${_date(r.newExpiryDate)}'),
+                                subtitle: Text(
+                                  '${r.newValidityMonths} months • Total ${r.totalCost.toStringAsFixed(2)}',
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+            ),
           ],
         ),
       ),
@@ -116,7 +160,10 @@ class PermitDetailPage extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700)),
+              Text(
+                title,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+              ),
               const SizedBox(height: 10),
               ...children,
             ],

@@ -5,32 +5,67 @@
 build/
 .flutter-plugins
 .flutter-plugins-dependencies
+.dart_tool/
+
+# Flutter generated platform files
+.flutter-plugins-dependencies
 
 # IDE
 .idea/
 .vscode/
 *.iml
+*.ipr
+*.iws
 
-# Android
+# Android / Gradle
 android/.gradle/
 android/app/debug/
 android/app/profile/
 android/app/release/
-android/key.properties
+android/build/
+android/.cxx/
 android/local.properties
+android/key.properties
 
-# Environment / secrets
+# Android generated outputs
+*.apk
+*.aab
+*.apks
+*.aab.zip
+*.apk.sha1
+
+# Signing / certificates / secrets
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pem
+*.der
+*.cer
 .env
 .env.*
 !.env.example
-*.pem
-*.jks
-*.keystore
 
-# Generated files
+# Generated / test output
 coverage/
 *.log
+*.tmp
+*.temp
 
 # OS
 .DS_Store
 Thumbs.db
+Desktop.ini
+
+# Firebase / Google generated local config
+android/app/google-services.json
+
+# Fastlane local/generated files
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# Misc local tooling
+*.swp
+*.swo
